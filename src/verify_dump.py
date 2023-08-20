@@ -22,7 +22,7 @@ try:
     for binario, cpi in binario_e_CPI:
         print(f"{binario} | CPI: {cpi}")
 
-    ciclosTotais = sum(num for linha, num in binario_e_CPI if num.isnumeric())
+    ciclosTotais = sum(cpi for binario, cpi in binario_e_CPI)
     print(f"Ciclos totais: {ciclosTotais}")
 
 ###############################
