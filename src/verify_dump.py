@@ -1,33 +1,37 @@
 import sys
 
+def getCPI(binary):
+    opcode=binary[0 : 4]
+    return opcode
+
 ###############################
 
 if len(sys.argv) > 1:
     file = sys.argv[1]  
 else:
-    file = input("Digite o nome do arquivo: ")
+    file = input("Type the filename: ")
 
 ###############################
 
-binario_e_CPI = []
+binaryAndCPI = []
 
 try:
     with open(file, 'r') as openFile:
-        for cpi, binario in enumerate(openFile, start=1):
-            binario_e_CPI.append((binario.strip(), cpi))
+        for cpi, binary in enumerate(openFile, start=1):
+            binaryAndCPI.append((binary.strip(), getCPI(binary.strip())))
 
 ###############################
 
-    print("CPI por instrução:")
-    for binario, cpi in binario_e_CPI:
-        print(f"{binario} | CPI: {cpi}")
+    print("CPI per instruction:")
+    for binary, cpi in binaryAndCPI:
+        print(f"{binary} | CPI: {cpi}")
 
-    ciclosTotais = sum(cpi for binario, cpi in binario_e_CPI)
-    print(f"Ciclos totais: {ciclosTotais}")
+    ciclosTotais = sum(cpi for binary, cpi in binaryAndCPI)
+    print(f"Total cycles: {ciclosTotais}")
 
 ###############################
 
 except FileNotFoundError:
-    print(f"O arquivo '{file}' não foi encontrado.")
+    print(f"File '{file}' not found.")
 except Exception as e:
-    print(f"Ocorreu um erro: {e}")
+    print(f"Unknown error: {e}")
