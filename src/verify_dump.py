@@ -1,7 +1,7 @@
 import sys
 
-def getCPI(binary):
-    opcode=binary[0 : 4]
+def getClocks(binary):
+    opcode = binary[0 : 6]
     return opcode
 
 ###############################
@@ -13,22 +13,32 @@ else:
 
 ###############################
 
-binaryAndCPI = []
+binaryAndClocks = []
 
 try:
-    with open(file, 'r') as openFile:
-        for cpi, binary in enumerate(openFile, start=1):
-            binaryAndCPI.append((binary.strip(), getCPI(binary.strip())))
+    with open(f"dump_files/{file}", 'r') as openFile:
+        for clocks, binary in enumerate(openFile, start=1):
+            if getClocks(binary.strip()) == "000000" or getClocks(binary.strip()) == "001000" or getClocks(binary.strip()) == "001101" or getClocks(binary.strip()) == "001111":
+                binaryStrip = 4
+            elif getClocks(binary.strip()) == "000010" or getClocks(binary.strip()) == "000101":
+                binaryStrip = 3
+            else:
+                binaryStrip = 5
+            binaryAndClocks.append((binary.strip(), binaryStrip))
+
+    with open(f"dump_files/{file}", 'r') as openFile:
+        line_count = sum(1 for line in openFile)
 
 ###############################
 
     print("Clocks per instruction:")
-    for binary, cpi in binaryAndCPI:
-        print(f"{binary} | CPI: {cpi}")
+    for binary, clocks in binaryAndClocks:
+        print(f"{binary[:6]} {binary[6:]} | Clock cycles: {clocks}")
 
-    ciclosTotais = sum(cpi for binary, cpi in binaryAndCPI)
-    print(f"Total cycles: {ciclosTotais}")
-    print(f"CPI: --- ??? ---")
+    totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
+    print(f"Total cycles: {totalCycles}")
+    cpi = totalCycles / line_count
+    print(f"CPI: {cpi}")
 
 ###############################
 
