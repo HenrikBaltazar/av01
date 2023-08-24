@@ -20,7 +20,7 @@ try:
 
     print("CPI por instrução:")
     for binario, cpi in binario_e_CPI:
-        print(f"{binario} | CPI: {cpi}")
+        print(f"{binario[:6]} {binario[6:]} | CPI: {cpi}")
 
     ciclosTotais = sum(cpi for binario, cpi in binario_e_CPI)
     print(f"Ciclos totais: {ciclosTotais}")
