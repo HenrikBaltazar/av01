@@ -12,7 +12,7 @@ else:
 binario_e_CPI = []
 
 try:
-    with open(f"dump_files/{file}", 'r') as openFile:
+    with open(f"{file}", 'r') as openFile:
         for cpi, binario in enumerate(openFile, start=1):
             binario_e_CPI.append((binario.strip(), cpi))
 
@@ -20,7 +20,7 @@ try:
 
     print("CPI por instrução:")
     for binario, cpi in binario_e_CPI:
-        print(f"{binario[:6]} {binario[6:]} | CPI: {cpi}")
+        print(f"{binario} | CPI: {cpi}")
 
     ciclosTotais = sum(cpi for binario, cpi in binario_e_CPI)
     print(f"Ciclos totais: {ciclosTotais}")
