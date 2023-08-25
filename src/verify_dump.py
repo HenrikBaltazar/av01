@@ -43,15 +43,12 @@ else:
 ###############################
 
 binaryAndClocks = []
-
+line_count = 0
 try:
     with open(file, 'r') as openFile:
         for clocks, binary in enumerate(openFile, start=1):
             binaryAndClocks.append((binary.strip(), getClocks(binary.strip())))
-
-#### É possível ter o total de linhas do arquivo sem precisar desse código a mais?
-    with open(file, 'r') as openFile:
-        line_count = sum(1 for line in openFile)
+            line_count +=1
 
 ###############################
 
@@ -60,9 +57,8 @@ try:
         print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary[:6])} | Clock cycles: {clocks}")
 
     totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
-    print(f"Total cycles: {totalCycles}")
     cpi = totalCycles / line_count
-    print(f"CPI: {cpi}")
+    print(f"Total Instructions: {line_count}\nTotal cycles: {totalCycles}\nCPI: {cpi}")
 
 ###############################
 
