@@ -1,12 +1,13 @@
 import sys
 
-rType = "000000"
-iType = ["001000","001001","001100","001101","001111", "001010", "001011", "001110"]
-jType = ["000010", "000011"]
-loadStore = ["100011", "101011"]
-branch = ["000100", "000101"]
+###############################
 
 def getType(opcode):
+    rType = "000000"
+    iType = ["001000","001001","001100","001101","001111", "001010", "001011", "001110"]
+    jType = ["000010", "000011"]
+    loadStore = ["100011", "101011"]
+    branch = ["000100", "000101"]
     if opcode in iType:
         return "I"
     elif opcode in jType:
@@ -19,6 +20,8 @@ def getType(opcode):
         return "R"
     else:
         return "undefined"
+
+###############################
 
 def getClocks(binary):
     if getType(binary[:6]) == "I":
@@ -33,6 +36,7 @@ def getClocks(binary):
         return 4
     else:
         return 4
+    
 ###############################
 
 if len(sys.argv) > 1:
