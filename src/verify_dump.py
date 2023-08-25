@@ -6,23 +6,33 @@ jType = ["000010", "000011"]
 loadStore = ["100011", "101011"]
 branch = ["000100", "000101"]
 
-
-### TODO: Alterar a função abaixo (getClocks) para que os clocks sejam de acordo com:
-### rType e derivados = 4 clocks
-### iType = 1 clock
-### jType = 3 clocks
-### loadStore = 5 clocks
-### branch = 3 clocks
-def getClocks(binary):
-    opcode = binary[0 : 6]
-    if opcode == "000000" or opcode == "001000" or opcode == "001101" or opcode == "001111":
-        clocks = 1
-    elif opcode == "000010" or opcode == "000101":
-        clocks = 2
+def getType(opcode):
+    if opcode in iType:
+        return "I"
+    elif opcode in jType:
+        return "J"
+    elif opcode in loadStore:
+        return "LS"
+    elif opcode in branch:
+        return "BR"
+    elif opcode in rType:
+        return "R"
     else:
-        clocks = 5
-    return clocks
+        return "undefined"
 
+def getClocks(binary):
+    if getType(binary[:6]) == "I":
+        return 1
+    elif getType(binary[:6]) == "J":
+        return 3
+    elif getType(binary[:6]) == "LS":
+        return 5
+    elif getType(binary[:6]) == "BR":
+        return 3
+    elif getType(binary[:6]) == "R":
+        return 4
+    else:
+        return 4
 ###############################
 
 if len(sys.argv) > 1:
@@ -47,7 +57,7 @@ try:
 
     print("Clocks per instruction:")
     for binary, clocks in binaryAndClocks:
-        print(f"{binary[:6]} {binary[6:]} | Clock cycles: {clocks}")
+        print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary[:6])} | Clock cycles: {clocks}")
 
     totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
     print(f"Total cycles: {totalCycles}")
