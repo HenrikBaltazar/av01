@@ -56,13 +56,14 @@ try:
 
 ###############################
 
-    print("Clocks per instruction:")
+    print("\nClocks for each instruction:\n")
     for binary, clocks in binaryAndClocks:
         print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary[:6])} | Clock cycles: {clocks}")
 
     totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
     cpi = totalCycles / line_count
-    print(f"Total Instructions: {line_count}\nTotal cycles: {totalCycles}\nCPI: {cpi}")
+    cpi = str(round(cpi, 2))
+    print("\n\033[1m"+"RESULT:"+"\033[0m"+f"\nTotal Instructions: {line_count}\nTotal cycles: {totalCycles}\nCPI: {cpi}\n")
 
 ###############################
 
