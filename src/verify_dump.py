@@ -47,12 +47,11 @@ else:
 ###############################
 
 binaryAndClocks = []
-line_count = 0
+totalInstructions = 0
 try:
     with open(file, 'r') as openFile:
-        for clocks, binary in enumerate(openFile, start=1):
+        for totalInstructions, binary in enumerate(openFile, start=1):
             binaryAndClocks.append((binary.strip(), getClocks(binary.strip())))
-            line_count +=1
 
 ###############################
 
@@ -61,9 +60,9 @@ try:
         print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary[:6])} | Clock cycles: {clocks}")
 
     totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
-    cpi = totalCycles / line_count
+    cpi = totalCycles / totalInstructions
     cpi = str(round(cpi, 2))
-    print("\n\033[1m"+"RESULT:"+"\033[0m"+f"\nTotal Instructions: {line_count}\nTotal cycles: {totalCycles}\nCPI: {cpi}\n")
+    print("\n\033[1m"+"RESULT:"+"\033[0m"+f"\nTotal Instructions: {totalInstructions}\nTotal cycles: {totalCycles}\nCPI: {cpi}\n")
 
 ###############################
 
