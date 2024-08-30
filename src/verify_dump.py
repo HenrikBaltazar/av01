@@ -8,15 +8,17 @@ def getType(opcode):
     jType = ["000010", "000011"]
     loadStore = ["100011", "101011"]
     branch = ["000100", "000101"]
-    if opcode in iType:
+    if opcode[:6] in iType:
         return "I"
-    elif opcode in jType:
+    elif opcode[:6] in jType:
         return "J"
-    elif opcode in loadStore:
+    elif opcode[:6] in loadStore:
         return "LS"
-    elif opcode in branch:
+    elif opcode[:6] in branch:
         return "BR"
-    elif opcode in rType:
+    elif opcode == "00000000000000000000000000000000":
+        return "nop"
+    elif opcode[:6] in rType:
         return "R"
     else:
         return "undefined"
@@ -24,18 +26,20 @@ def getType(opcode):
 ###############################
 
 def getClocks(binary):
-    if getType(binary[:6]) == "I":
-        return 1
-    elif getType(binary[:6]) == "J":
+    if getType(binary) == "I":
+        return 4
+    elif getType(binary) == "J":
         return 3
-    elif getType(binary[:6]) == "LS":
+    elif getType(binary) == "LS":
         return 5
-    elif getType(binary[:6]) == "BR":
+    elif getType(binary) == "BR":
         return 3
-    elif getType(binary[:6]) == "R":
+    elif getType(binary)== "nop":
+        return 1
+    elif getType(binary) == "R":
         return 4
     else:
-        return 4
+        return 1
     
 ###############################
 
@@ -49,15 +53,16 @@ else:
 binaryAndClocks = []
 totalInstructions = 0
 try:
-    with open(file, 'r') as openFile:
+    with open(file, 'rb') as openFile:  # Abra o arquivo em modo binário
         for totalInstructions, binary in enumerate(openFile, start=1):
-            binaryAndClocks.append((binary.strip(), getClocks(binary.strip())))
+            binary_str = binary.decode('utf-8').strip()  # Decodifique cada linha de bytes para string
+            binaryAndClocks.append((binary_str, getClocks(binary_str)))
 
 ###############################
 
     print("\nClocks for each instruction:\n")
     for binary, clocks in binaryAndClocks:
-        print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary[:6])} | Clock cycles: {clocks}")
+        print(f"{binary[:6]} {binary[6:]} | Type: {getType(binary)} | Clock cycles: {clocks}")
 
     totalCycles = sum(clocks for binary, clocks in binaryAndClocks)
     cpi = totalCycles / totalInstructions
