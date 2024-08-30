@@ -2,23 +2,24 @@ import sys
 
 ###############################
 
-def getType(opcode):
+def getType(binary):
     rType = "000000"
     iType = ["001000","001001","001100","001101","001111", "001010", "001011", "001110"]
     jType = ["000010", "000011"]
     loadStore = ["100011", "101011"]
     branch = ["000100", "000101"]
-    if opcode[:6] in iType:
+    opcode = binary[:6]
+    if opcode in iType:
         return "I"
-    elif opcode[:6] in jType:
+    elif opcode in jType:
         return "J"
-    elif opcode[:6] in loadStore:
+    elif opcode in loadStore:
         return "LS"
-    elif opcode[:6] in branch:
+    elif opcode in branch:
         return "BR"
-    elif opcode == "00000000000000000000000000000000":
+    elif binary == "00000000000000000000000000000000":
         return "nop"
-    elif opcode[:6] in rType:
+    elif opcode in rType:
         return "R"
     else:
         return "undefined"
@@ -75,3 +76,4 @@ except FileNotFoundError:
     print(f"File '{file}' not found.")
 except Exception as e:
     print(f"Unknown error: {e}")
+    
